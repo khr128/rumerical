@@ -4,3 +4,6 @@ $:.unshift(File.dirname(__FILE__)) unless
 module Rumerical
   VERSION = '0.0.1'
 end
+
+require 'point/point'
+require 'interpolation/linear'
