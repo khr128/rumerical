@@ -5,5 +5,6 @@ module Rumerical
   VERSION = '0.0.1'
 end
 
-require 'point/point'
+require 'data_types/point'
+require 'data_types/matrix'
 require 'interpolation/linear'
