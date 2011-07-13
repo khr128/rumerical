@@ -1,12 +1,46 @@
+require 'rumerical'
 module Rumerical
   class Matrix
+    attr_reader :rect
     def initialize mi
       @m = mi
+      update_rect
+    end
+
+    def update_rect
+      rect_y = @m.inject(0) do |max_y, x|
+        newmax = x[1].keys.max
+        max_y = newmax if(newmax && newmax > max_y)
+        max_y
+      end
+
+      @rect = Rumerical::Point.new(@m.keys.max.to_i, rect_y)
     end
 
     def [] i,j
+      row = @m[i]
+      return 0 unless row
       value = @m[i][j]
       value ? value : 0
+    end
+
+    def []= i,j,value
+      @m[i] ||= {}
+      @m[i][j] = value
+      @rect.x = i if(i > @rect.x)
+      @rect.y = j if(j > @rect.y)
+    end
+
+    def * matrix
+      result = Rumerical::Matrix.new({})
+      (1..@rect.x).each do |i|
+        (1..matrix.rect.y).each do |j|
+          (1..@rect.y).each do |k|
+            result[i,j] += self[i,k]*matrix[k,j]
+          end
+        end
+      end
+      result
     end
 
   end
