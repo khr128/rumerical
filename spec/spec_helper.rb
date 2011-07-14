@@ -8,3 +8,9 @@ end
 
 $:.unshift(File.dirname(__FILE__) + '/../lib')
 require 'rumerical'
+require 'custom_matchers/matrix_matchers'
+
+RSpec.configure do |config|
+  config.include(MatrixMatchers)
+end
+

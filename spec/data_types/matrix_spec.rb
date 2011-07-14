@@ -1,4 +1,4 @@
-require 'spec_helper.rb'
+require 'spec_helper'
 
 describe "Matrix" do
   before :each do
@@ -54,5 +54,71 @@ describe "Matrix" do
     i[3,1].should == 0
     i[3,2].should == 0
   end
-end
 
+  it "should swap elements" do
+    m = Rumerical::Matrix.new @mi
+    m[1,1].should == 1
+    m[2,2].should == 2
+
+    m.swap(1,1,2,2)
+
+    m[1,1].should == 2
+    m[2,2].should == 1
+  end
+
+  it "should swap rows" do
+    m = Rumerical::Matrix.new @mi
+    m[2,1].should == 0
+    m[2,2].should == 2
+    m[2,3].should == 0
+    m[3,1].should == 0
+    m[3,2].should == 0
+    m[3,3].should == 3
+
+    m.swap_rows(2,3)
+
+    m[3,1].should == 0
+    m[3,2].should == 2
+    m[3,3].should == 0
+    m[2,1].should == 0
+    m[2,2].should == 0
+    m[2,3].should == 3
+  end
+
+  it "should find pivot element" do
+    m = Rumerical::Matrix.new @mi
+    ipiv = Rumerical::Matrix.new({})
+    m.find_pivot(ipiv) == [3,3]
+  end
+
+  it "should multiply row by value" do
+    m = Rumerical::Matrix.new @mi
+    m[2,1] = -1.3
+    m[2,3] = 14.2
+
+    m.multiply_row_by(3.0, 2)
+
+    m[2,1].should be_within(1.0e-12).of(-3.9)
+    m[2,2].should == 6
+    m[2,3].should be_within(1.0e-12).of(42.6)
+  end
+
+  it "should reduce a row by another row" do
+    m = Rumerical::Matrix.new @mi
+    m[2,1] = -1.3
+    m[2,3] = 14.2
+    m[3,1] = 3
+    m[3,2] = 3
+
+    m.reduce_row(3, 2, 2.0)
+
+    m[3,1].should be_within(1.0e-12).of(5.6)
+    m[3,2].should be_within(1.0e-12).of(-1)
+    m[3,3].should be_within(1.0e-12).of(-25.4)
+
+    m[2,1].should == -1.3
+    m[2,2].should == 2
+    m[2,3].should == 14.2
+  end
+
+end

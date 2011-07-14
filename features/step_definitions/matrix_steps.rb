@@ -1,4 +1,7 @@
 require './lib/rumerical'
+require './spec/custom_matchers/matrix_matchers'
+include MatrixMatchers
+
 def initial_matrix table
   mi = {}
   table.hashes.each do |row|
@@ -43,6 +46,13 @@ end
 
 Then /^I have inverse matrix for the matrix$/ do
   @matrix.inverse.should_not be_nil
-  (@matrix*@matrix.inverse).should == Rumerical::Matrix.identity(@matrix.rect.x)
+  i = Rumerical::Matrix.identity(@matrix.rect.x)
+  (@matrix*@matrix.inverse).should have_all_elements_within(1.0e-12).of(i)
+end
+
+Then /^I have solutions for the "([^"]*)"$/ do |name|
+  @matrix.solutions.should_not be_nil
+  right_parts = instance_variable_get("@matrix_#{name}")
+  (@matrix*@matrix.solutions).should have_all_elements_within(1.0e-12).of(right_parts)
 end
 

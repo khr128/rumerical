@@ -1,4 +1,4 @@
-require 'spec_helper.rb'
+require 'spec_helper'
 
 # Time to add your specs!
 # http://rspec.info/
