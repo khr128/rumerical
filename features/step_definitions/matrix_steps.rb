@@ -8,8 +8,13 @@ def initial_matrix table
       mi[row["i"].to_i][row["j"].to_i] = row["value"].to_f
     end
   end
-  puts mi.inspect
   mi
+end
+
+def verify_matrix m, table
+  table.hashes.each do |row| 
+    m[row["i"].to_i,row["j"].to_i].should == row["value"].to_f
+  end
 end
 
 Given /^matrix is initialized with the following elements:$/ do |table|
@@ -25,14 +30,19 @@ When /^I multiply the matrix and the matrix "([^"]*)"$/ do |name|
 end
 
 Then /^the matrix has the following elements:$/ do |table|
-  table.hashes.each do |row| 
-    @matrix[row["i"].to_i,row["j"].to_i].should == row["value"].to_f
-  end
+  verify_matrix @matrix, table
 end
 
 Then /^the matrix "([^"]*)" has the folowing elements:$/ do |name, table|
-  m = instance_variable_get("@matrix_#{name}")
-  table.hashes.each do |row| 
-    m[row["i"].to_i,row["j"].to_i].should == row["value"].to_f
-  end
+  verify_matrix instance_variable_get("@matrix_#{name}"), table
 end
+
+Then /^I apply Gauss\-Jordan elimination on matrix with matrix of "([^"]*)"$/ do |name|
+  @matrix.gaussj instance_variable_get("@matrix_#{name}")
+end
+
+Then /^I have inverse matrix for the matrix$/ do
+  @matrix.inverse.should_not be_nil
+  (@matrix*@matrix.inverse).should == Rumerical::Matrix.identity(@matrix.rect.x)
+end
+

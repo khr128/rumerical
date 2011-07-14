@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/spec_helper.rb'
+require 'spec_helper.rb'
 
 describe "Matrix" do
   before :each do
@@ -40,6 +40,19 @@ describe "Matrix" do
     result[2,1].should == 0
     result[3,1].should == 0
     result[3,2].should == 0
+  end
+
+  it "should define identity matrix" do
+    i = Rumerical::Matrix.identity(3)
+    i[1,1].should == 1
+    i[2,2].should == 1
+    i[3,3].should == 1
+    i[1,3].should == 0
+    i[2,3].should == 0
+    i[1,2].should == 0
+    i[2,1].should == 0
+    i[3,1].should == 0
+    i[3,2].should == 0
   end
 end
 

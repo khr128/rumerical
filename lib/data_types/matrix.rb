@@ -1,10 +1,22 @@
 require 'rumerical'
 module Rumerical
   class Matrix
+    include LinearAlgebra
     attr_reader :rect
+    attr_reader :inverse
+
     def initialize mi
       @m = mi
       update_rect
+    end
+
+    def self.identity n
+      Matrix.new({}.tap do |m|
+        (1..n).each do |row|
+          m[row] = {}
+          m[row][row] = 1
+        end
+      end)
     end
 
     def update_rect
@@ -32,16 +44,15 @@ module Rumerical
     end
 
     def * matrix
-      result = Rumerical::Matrix.new({})
-      (1..@rect.x).each do |i|
-        (1..matrix.rect.y).each do |j|
-          (1..@rect.y).each do |k|
-            result[i,j] += self[i,k]*matrix[k,j]
+      Rumerical::Matrix.new({}).tap do |result|
+        (1..@rect.x).each do |i|
+          (1..matrix.rect.y).each do |j|
+            (1..@rect.y).each do |k|
+              result[i,j] += self[i,k]*matrix[k,j]
+            end
           end
         end
       end
-      result
     end
-
   end
 end
