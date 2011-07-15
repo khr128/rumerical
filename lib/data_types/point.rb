@@ -1,6 +1,10 @@
 module Rumerical
   class Point
     attr_accessor :x, :y
+    alias :row :x
+    alias :col :y
+    alias :row= :x=
+    alias :col= :y=
 
     def initialize(x, y)
       @x = x

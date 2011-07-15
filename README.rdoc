@@ -4,23 +4,95 @@
 
 == DESCRIPTION:
 
-FIX (describe your package)
+Scientific computations in Ruby based on Numerical Recipes book
 
 == FEATURES/PROBLEMS:
 
-* FIX (list of features or problems)
+* class Matrix
+  * Gauss-Jordan elimination with pivoting
 
 == SYNOPSIS:
 
-  FIX (code sample of usage)
+* <b>Create a matrix with all zero elements</b>
 
+    m = Rumerical::Matrix.new({})
+    m.rect.row #=> 0 
+    m.rect.col #=> 0
+
+    m[37,42] = 1.234
+    m[37,42] #=> 1.234
+    m[1,1] #=>0
+
+    m.rect.row = 37
+    m.rect.col = 42
+
+
+* <b>Initialize a matrix with a hash</b>
+
+    mi = {
+      1 => {1 => 1},
+      2 => {2 => 2},
+      3 => {3 => 3}
+    }
+
+    m = Rumerical::Matrix.new(mi)
+    m[1,1]    #=> 1
+    m[2,2]    #=> 2
+    m[3,3]    #=> 3
+    Elements not included in the mi hash are all zeroes:
+    m[1,2]    #=> 0
+    m[37,42]  #=> 0
+
+    m.rect.row #=> 3 #max. row that has non-zero elements
+    m.rect.col #=> 3 #max. column that has non-zero elements
+
+* <b>Gauss-Jordan elimination</b>
+
+  Only square matrix (1..m.rect.row)x(1..m.rect.row) is used in this operation
+
+    mi = {
+      1 => {1 => 1},
+      2 => {2 => 2},
+      3 => {3 => 3}
+    }
+
+    m = Rumerical::Matrix.new(mi)
+    b = Rumerical::Matrix.new({1=>{1=>1, 2=>3}, 2=>{1=>1, 2=>4}, 3=>{1=>1, 2=>5}})
+
+    m.gaussj b
+    m.inverse
+    => #<Rumerical::Matrix:0x000001009b81f0
+      @m={
+        1=>{1=>1.0, 3=>0.0, 2=>0.0},
+        2=>{2=>0.5, 3=>0.0, 1=>0.0},
+        3=>{3=>0.3333333333333333, 1=>0.0, 2=>0.0}
+      },
+      @rect=#<Rumerical::Point:0x000001009b7fc0 @x=3, @y=3>>
+
+    m.solutions
+    => #<Rumerical::Matrix:0x00000100870c70
+      @m={
+        1=>{1=>1.0, 2=>3.0},
+        2=>{1=>0.5, 2=>2.0},
+        3=>{1=>0.3333333333333333, 2=>1.6666666666666665}}, 
+        @rect=#<Rumerical::Point:0x00000100870a40 @x=3, @y=2>>
+
+    m*m.solutions #is equal to b again
+     => #<Rumerical::Matrix:0x00000100908458
+       @m={
+         1=>{1=>1.0, 2=>3.0},
+         2=>{1=>1.0, 2=>4.0},
+         3=>{1=>1.0, 2=>5.0}
+       },
+       @rect=#<Rumerical::Point:0x00000100908340 @x=3, @y=2>>
+ 
 == REQUIREMENTS:
 
-* FIX (list of requirements)
+
 
 == INSTALL:
 
-* FIX (sudo gem install, anything else)
+  gem install rumerical
 
 == LICENSE:
 

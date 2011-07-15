@@ -10,7 +10,7 @@ module Rumerical
       indxr = Matrix.new({})
       ipiv = Matrix.new({})
 
-      n = @inverse.rect.y
+      n = @inverse.rect.col
       (1..n).each do |i|
         irow, icol = @inverse.find_pivot(ipiv)
         ipiv[icol,1] += 1

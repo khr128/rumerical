@@ -2,3 +2,4 @@
 
 * 1 major enhancement:
   * Initial release
+  * Now has Matrix class with Gauss-Jordan elimination with pivoting

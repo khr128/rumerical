@@ -5,6 +5,8 @@ module Rumerical
     attr_reader :rect
     attr_reader :inverse
     attr_reader :solutions
+    attr_reader :l, :u
+
 
     def initialize mi
       @m = mi
@@ -21,13 +23,13 @@ module Rumerical
     end
 
     def update_rect
-      rect_y = @m.inject(0) do |max_y, x|
+      rect_col = @m.inject(0) do |max_y, x|
         newmax = x[1].keys.max
         max_y = newmax if(newmax && newmax > max_y)
         max_y
       end
 
-      @rect = Rumerical::Point.new(@m.keys.max.to_i, rect_y)
+      @rect = Rumerical::Point.new(@m.keys.max.to_i, rect_col)
     end
 
     def [] i,j
@@ -40,15 +42,15 @@ module Rumerical
     def []= i,j,value
       @m[i] ||= {}
       @m[i][j] = value
-      @rect.x = i if(i > @rect.x)
-      @rect.y = j if(j > @rect.y)
+      @rect.row = i if(i > @rect.row)
+      @rect.col = j if(j > @rect.col)
     end
 
     def * matrix
       Rumerical::Matrix.new({}).tap do |result|
-        (1..@rect.x).each do |i|
-          (1..matrix.rect.y).each do |j|
-            (1..@rect.y).each do |k|
+        (1..@rect.row).each do |i|
+          (1..matrix.rect.col).each do |j|
+            (1..@rect.col).each do |k|
               result[i,j] += self[i,k]*matrix[k,j]
             end
           end
@@ -63,14 +65,14 @@ module Rumerical
     end
 
     def swap_rows row1, row2
-      n = rect.y
+      n = rect.col
       (1..n).each {|l| swap(row1,l, row2,l)}
     end
 
     def find_pivot pivot_index
       big = 0
       irow = icol = 0
-      n = rect.y
+      n = rect.col
       (1..n).each do |j|
         next if pivot_index[j,1] == 1
         (1..n).each do |k|
@@ -87,12 +89,12 @@ module Rumerical
     end
 
     def multiply_row_by value, row
-      n = rect.y
+      n = rect.col
       (1..n).each {|l| self[row,l] *= value}
     end
 
     def reduce_row row, other_row, value
-      n = rect.y
+      n = rect.col
       (1..n).each {|l| self[row,l] -= self[other_row,l]*value}
     end
 
