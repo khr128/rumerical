@@ -150,6 +150,7 @@ describe "Matrix" do
     m[2,3] = 14.2
 
     m.largest_element_in_row(2).should == 14.2
+    m.largest_element_in_row(4).should == 0
   end
 
 end

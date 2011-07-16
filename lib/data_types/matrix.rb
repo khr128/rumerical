@@ -98,7 +98,9 @@ module Rumerical
     end
 
     def largest_element_in_row row
-      @m[row].values.max_by{|x| x.abs}.abs
+      row = @m[row]
+      return 0 unless row
+      row.values.max_by{|x| x.abs}.abs
     end
   end
 end

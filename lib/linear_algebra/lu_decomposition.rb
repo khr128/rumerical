@@ -42,7 +42,9 @@ module Rumerical
       @determinant_sign = 1
       n = rect.col
       (1..n).each do |i|
-        vv[i,1] = 1.0/largest_element_in_row(i)
+        big = largest_element_in_row(i)
+        raise "ludcmp: Singular matrix" if big == 0
+        vv[i,1] = 1.0/big
       end
 
       @lu = deepcopy self
