@@ -40,6 +40,29 @@ describe "Matrix" do
     result[2,1].should == 0
     result[3,1].should == 0
     result[3,2].should == 0
+    end
+
+  it "should multiply by a differently sized matrix" do
+    m = Rumerical::Matrix.new({
+      1=>{1=>1.0, 2=>1.5, 3=>1.8},
+      2=>{1=>-1.1, 2=>2.5, 3=>2.8},
+      3=>{1=>-11.1, 2=>12.5, 3=>-1.8}
+    })
+    s = Rumerical::Matrix.new({
+      1=>{1=>-2.1535451557364222},
+      2=>{1=>-1.6464861480669906},
+      3=>{1=>3.124041321020504}
+    })
+    b = Rumerical::Matrix.new({
+      1=>{1=>1},
+      2=>{1=>7},
+      3=>{1=>-2.3}
+    })
+    result = m*s
+    result.should_not be_nil
+    result.rect.should == Rumerical::Point.new(3,1)
+
+    result.should have_all_elements_within(1.0e-12).of(b)
   end
 
   it "should define identity matrix" do

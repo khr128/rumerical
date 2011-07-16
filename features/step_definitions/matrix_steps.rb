@@ -68,3 +68,7 @@ Then /^I have L and U matrices defined for the matrix$/ do
   prod.should have_all_elements_within(1.0e-12).of(@matrix)
 end
 
+When /^I perform LU back substitution with "([^"]*)"$/ do |name|
+  right_parts = instance_variable_get("@matrix_#{name}")
+  @matrix.lubksb right_parts
+end

@@ -83,5 +83,28 @@ module Rumerical
 
       end
     end
+
+    def lubksb b
+      @solutions = deepcopy b
+      ii = 0
+      n = @lu.rect.row
+      (1..n).each do |i|
+        ip = @index[i,1]
+        sum = @solutions[ip,1]
+        @solutions[ip,1] = @solutions[i,1]
+        if ii > 0
+          (ii..i-1).each{|j| sum -= @lu[i,j]*@solutions[j,1]}
+        elsif sum != 0
+          ii = i
+        end
+        @solutions[i,1] = sum
+      end
+
+      n.downto(1).each do |i|
+        sum = @solutions[i,1]
+        (i+1..n).each{|j| sum -= @lu[i,j]*@solutions[j,1]}
+        @solutions[i,1] = sum/@lu[i,i]
+      end
+    end
   end
 end
