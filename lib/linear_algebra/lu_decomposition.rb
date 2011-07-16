@@ -1,5 +1,42 @@
 module Rumerical
   module LinearAlgebra
+
+    def lu_unscramble m
+      n = @index.rect.row
+      n.downto(1).each do |i|
+        m.swap_rows(i, @index[i,1]) if i != @index[i,1]
+      end
+    end
+
+    def extract_l index
+      Matrix.new({}).tap do |l|
+        @m.each do |row,v|
+          v.each do |col, e|
+            l[row,col] = e if row > col
+            l[row,col] = 1 if row == col
+          end
+        end
+      end
+    end
+
+    def extract_u index
+      Matrix.new({}).tap do |u|
+        @m.each do |row,v|
+          v.each do |col, e|
+            u[row,col] = e if row <= col
+          end
+        end
+      end
+    end
+
+    def l
+      @l ||= @lu.extract_l(@index)
+    end
+
+    def u
+      @u ||= @lu.extract_u(@index)
+    end
+
     def ludcmp
       vv = Rumerical::Matrix.new({})
       @determinant_sign = 1
