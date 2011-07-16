@@ -121,4 +121,12 @@ describe "Matrix" do
     m[2,3].should == 14.2
   end
 
+  it "should find largest elements in rows" do
+    m = Rumerical::Matrix.new @mi
+    m[2,1] = -1.3
+    m[2,3] = 14.2
+
+    m.largest_element_in_row(2).should == 14.2
+  end
+
 end

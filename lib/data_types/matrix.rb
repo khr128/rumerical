@@ -5,8 +5,42 @@ module Rumerical
     attr_reader :rect
     attr_reader :inverse
     attr_reader :solutions
-    attr_reader :l, :u
 
+    def lu_unscramble m
+      n = @index.rect.row
+      n.downto(1).each do |i|
+        m.swap_rows(i, @index[i,1]) if i != @index[i,1]
+      end
+    end
+
+    def extract_l index
+      Matrix.new({}).tap do |l|
+        @m.each do |row,v|
+          v.each do |col, e|
+            l[row,col] = e if row > col
+            l[row,col] = 1 if row == col
+          end
+        end
+      end
+    end
+
+    def extract_u index
+      Matrix.new({}).tap do |u|
+        @m.each do |row,v|
+          v.each do |col, e|
+            u[row,col] = e if row <= col
+          end
+        end
+      end
+    end
+
+    def l
+      @l ||= @lu.extract_l(@index)
+    end
+
+    def u
+      @u ||= @lu.extract_u(@index)
+    end
 
     def initialize mi
       @m = mi
@@ -59,14 +93,15 @@ module Rumerical
     end
 
     def swap i1, j1, i2, j2
-      temp = self[i1,j1]
-      self[i1,j1] = self[i2,j2]
-      self[i2,j2] = temp
+      tmp = deepcopy @m[i1][j1]
+      @m[i1][j1] = deepcopy @m[i2][j2]
+      @m[i2][j2] = tmp
     end
 
     def swap_rows row1, row2
-      n = rect.col
-      (1..n).each {|l| swap(row1,l, row2,l)}
+      tmp_row = deepcopy @m[row1]
+      @m[row1] = deepcopy @m[row2]
+      @m[row2] = tmp_row
     end
 
     def find_pivot pivot_index
@@ -89,8 +124,7 @@ module Rumerical
     end
 
     def multiply_row_by value, row
-      n = rect.col
-      (1..n).each {|l| self[row,l] *= value}
+      @m[row].each{|col,row_value| self[row,col] = value * row_value}
     end
 
     def reduce_row row, other_row, value
@@ -98,5 +132,8 @@ module Rumerical
       (1..n).each {|l| self[row,l] -= self[other_row,l]*value}
     end
 
+    def largest_element_in_row row
+      @m[row].values.max_by{|x| x.abs}.abs
+    end
   end
 end

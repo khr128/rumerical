@@ -56,3 +56,15 @@ Then /^I have solutions for the "([^"]*)"$/ do |name|
   (@matrix*@matrix.solutions).should have_all_elements_within(1.0e-12).of(right_parts)
 end
 
+When /^I perform LU decomposition of the matrix$/ do
+  @matrix.ludcmp
+end
+
+Then /^I have L and U matrices defined for the matrix$/ do
+  @matrix.l.should_not be_nil  
+  @matrix.u.should_not be_nil  
+  prod = @matrix.l*@matrix.u
+  @matrix.lu_unscramble prod
+  prod.should have_all_elements_within(1.0e-12).of(@matrix)
+end
+

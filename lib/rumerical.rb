@@ -6,7 +6,7 @@ module Rumerical
 end
 
 require 'util/util'
-require 'linear_algebra/gauss_jordan'
+require 'linear_algebra'
 require 'data_types/point'
 require 'data_types/matrix'
 require 'interpolation/linear'
