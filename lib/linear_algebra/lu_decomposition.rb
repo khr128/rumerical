@@ -2,8 +2,7 @@ module Rumerical
   module LinearAlgebra
 
     def lu_unscramble m
-      n = @index.rect.row
-      n.downto(1).each do |i|
+      @index.rect.row.downto(1).each do |i|
         m.swap_rows(i, @index[i,1]) if i != @index[i,1]
       end
     end
@@ -106,6 +105,15 @@ module Rumerical
         sum = @solutions[i,1]
         (i+1..n).each{|j| sum -= @lu[i,j]*@solutions[j,1]}
         @solutions[i,1] = sum/@lu[i,i]
+      end
+    end
+
+    def luinv
+      @inverse = Rumerical::Matrix.new({})
+      (1..@lu.rect.row).each do |j|
+        col = Matrix.new({j=>{1=>1}})
+        lubksb col
+        @inverse.set_columns @solutions, j
       end
     end
   end

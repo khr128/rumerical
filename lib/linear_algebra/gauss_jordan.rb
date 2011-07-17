@@ -44,5 +44,24 @@ module Rumerical
         (1..n).each{|k| @inverse.swap(k,indxr[l,1],k,indxc[l,1])}
       end
     end
+
+    def find_pivot pivot_index
+      big = 0
+      irow = icol = 0
+      n = rect.col
+      (1..n).each do |j|
+        next if pivot_index[j,1] == 1
+        (1..n).each do |k|
+          raise "find_pivot: Singular Matrix" if pivot_index[k,1] > 1
+          next unless pivot_index[k,1] == 0
+          next unless self[j,k].abs >= big
+
+          big = self[j,k].abs
+          irow = j
+          icol = k
+        end
+      end
+      return irow, icol
+    end
   end
 end

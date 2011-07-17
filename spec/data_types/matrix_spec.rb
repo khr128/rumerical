@@ -153,4 +153,14 @@ describe "Matrix" do
     m.largest_element_in_row(4).should == 0
   end
 
+  it "should set columns from another matrix" do
+    m = Rumerical::Matrix.new @mi
+    m2 = Rumerical::Matrix.new({})
+    m2.set_columns m, 2
+
+    m2[1,2].should == 1
+    m2[2,3].should == 2
+    m2[3,4].should == 3
+  end
+
 end

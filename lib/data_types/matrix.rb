@@ -49,9 +49,7 @@ module Rumerical
       Rumerical::Matrix.new({}).tap do |result|
         (1..@rect.row).each do |i|
           (1..matrix.rect.col).each do |j|
-            (1..@rect.col).each do |k|
-              result[i,j] += self[i,k]*matrix[k,j]
-            end
+            (1..@rect.col).each{|k| result[i,j] += self[i,k]*matrix[k,j]}
           end
         end
       end
@@ -69,38 +67,25 @@ module Rumerical
       @m[row2] = tmp_row
     end
 
-    def find_pivot pivot_index
-      big = 0
-      irow = icol = 0
-      n = rect.col
-      (1..n).each do |j|
-        next if pivot_index[j,1] == 1
-        (1..n).each do |k|
-          raise "find_pivot: Singular Matrix" if pivot_index[k,1] > 1
-          next unless pivot_index[k,1] == 0
-          next unless self[j,k].abs >= big
-
-          big = self[j,k].abs
-          irow = j
-          icol = k
-        end
-      end
-      return irow, icol
-    end
-
     def multiply_row_by value, row
       @m[row].each{|col,row_value| self[row,col] = value * row_value}
     end
 
     def reduce_row row, other_row, value
-      n = rect.col
-      (1..n).each {|l| self[row,l] -= self[other_row,l]*value}
+      (1..rect.col).each {|l| self[row,l] -= self[other_row,l]*value}
     end
 
     def largest_element_in_row row
       row = @m[row]
       return 0 unless row
       row.values.max_by{|x| x.abs}.abs
+    end
+
+    def set_columns other, start
+      (1..other.rect.col).each do |col|
+        col_s = col + start - 1
+        (1..other.rect.row).each{|row| self[row, col_s] = other[row, col]}
+      end
     end
   end
 end

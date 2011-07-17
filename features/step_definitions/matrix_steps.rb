@@ -72,3 +72,7 @@ When /^I perform LU back substitution with "([^"]*)"$/ do |name|
   right_parts = instance_variable_get("@matrix_#{name}")
   @matrix.lubksb right_parts
 end
+
+When /^I perform LU matrix inversion$/ do
+  @matrix.luinv
+end
