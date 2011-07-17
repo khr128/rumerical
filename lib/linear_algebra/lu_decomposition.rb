@@ -116,5 +116,9 @@ module Rumerical
         @inverse.set_columns @solutions, j
       end
     end
+
+    def ludet
+      (1..@lu.rect.row).inject(@determinant_sign){|det,j| det *= @lu[j,j]}
+    end
   end
 end
