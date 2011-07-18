@@ -81,8 +81,8 @@ module Rumerical
 
         next if j == n
         (j+1..n).each{|i| @lu[i,j] /= @lu[j,j]}
-
       end
+      nil
     end
 
     def lubksb b
@@ -106,6 +106,7 @@ module Rumerical
         (i+1..n).each{|j| sum -= @lu[i,j]*@solutions[j,1]}
         @solutions[i,1] = sum/@lu[i,i]
       end
+      nil
     end
 
     def luinv
@@ -115,6 +116,7 @@ module Rumerical
         lubksb col
         @inverse.set_columns @solutions, j
       end
+      nil
     end
 
     def ludet

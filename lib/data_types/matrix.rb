@@ -55,6 +55,23 @@ module Rumerical
       end
     end
 
+    def transform_with matrix
+      Rumerical::Matrix.new({}).tap do |result|
+        (1..@rect.row).each do |i|
+          (1..@rect.col).each do |j|
+            result[i,j] = yield self[i,j], matrix[i,j]
+          end
+        end
+      end
+    end
+
+    def + matrix
+      transform_with(matrix){|this, other| this + other}
+    end
+    def - matrix
+      transform_with(matrix){|this, other| this - other}
+    end
+
     def swap i1, j1, i2, j2
       tmp = deepcopy @m[i1][j1]
       @m[i1][j1] = deepcopy @m[i2][j2]

@@ -22,5 +22,6 @@ describe "LU Decomposition" do
       m[1,3]*(m[2,1]*m[3,2]-m[3,1]*m[2,2])
     m.ludet.should be_within(1.0e-13).of(expected_det)
   end
+
 end
 

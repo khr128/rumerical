@@ -42,6 +42,18 @@ describe "Matrix" do
     result[3,2].should == 0
     end
 
+  it "should define operation of addition" do
+    m = Rumerical::Matrix.new @mi
+    result = m + m
+    result.should have_all_elements_within(1.0e-12).of(Rumerical::Matrix.new({1=>{1=>2}, 2=>{2=>4},3=>{3=>6}}))
+  end
+
+  it "should define operation of subtraction" do
+    m = Rumerical::Matrix.new @mi
+    result = m - m
+    result.should have_all_elements_within(1.0e-12).of(Rumerical::Matrix.new({3=>{3=>0}}))
+  end
+
   it "should multiply by a differently sized matrix" do
     m = Rumerical::Matrix.new({
       1=>{1=>1.0, 2=>1.5, 3=>1.8},
