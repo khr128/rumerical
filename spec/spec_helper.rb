@@ -1,5 +1,7 @@
 begin
   require 'rspec'
+  require 'rubygems'
+  require 'ruby-debug19'
 rescue LoadError
   require 'rubygems' unless ENV['NO_RUBYGEMS']
   gem 'rspec'

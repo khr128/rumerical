@@ -28,5 +28,20 @@ describe "Rumerical::Util" do
     m1[1,1].should == expected_value2
     m2[1,1].should == expected_value
   end
+
+  it "should define transfer sign method" do
+    transfer_sign(-1, 1).should == 1
+    transfer_sign(1, 1).should == 1
+    transfer_sign(1, -1).should == -1
+    transfer_sign(-1, -1).should == -1
+  end
+
+  it "should compute hypotenuse without overflow or underflow" do
+    pythag(0,0).should == 0
+    pythag(1,0).should == 1
+    pythag(0,1).should == 1
+    pythag(0,1.0e308).should == 1.0e308
+    pythag(1,1.0e-308).should == 1.0
+  end
 end
 

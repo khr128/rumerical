@@ -76,3 +76,7 @@ end
 When /^I perform LU matrix inversion$/ do
   @matrix.luinv
 end
+
+When /^I perform singular value decomposition of the matrix$/ do
+  @matrix.svdcmp
+end
