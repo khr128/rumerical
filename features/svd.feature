@@ -20,4 +20,5 @@ Feature: Singular Value Decomposition
 
   Scenario: Perform Singular Value Decomposition
     When I perform singular value decomposition of the matrix
+    Then I have singular value decomposition of the matrix
     

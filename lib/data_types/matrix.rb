@@ -21,6 +21,16 @@ module Rumerical
       end)
     end
 
+    def transpose
+      Matrix.new({}).tap do |m| 
+        (1..rect.row).each do |row|
+          (1..rect.col).each do |col|
+            m[col,row] = self[row,col]
+          end
+        end
+      end
+    end
+
     def update_rect
       rect_col = @m.inject(0) do |max_y, x|
         newmax = x[1].keys.max
@@ -84,8 +94,16 @@ module Rumerical
       @m[row2] = tmp_row
     end
 
+    def multiply_column_by value, col
+      (1..rect.row).each do |row|
+        col_value = @m[row][col]
+        next unless col_value
+        @m[row][col] = value * col_value
+      end
+    end
+
     def multiply_row_by value, row
-      @m[row].each{|col,row_value| self[row,col] = value * row_value}
+      @m[row].each{|col,row_value| @m[row][col] = value * row_value}
     end
 
     def reduce_row row, other_row, value

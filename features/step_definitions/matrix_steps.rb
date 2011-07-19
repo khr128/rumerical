@@ -61,9 +61,9 @@ When /^I perform LU decomposition of the matrix$/ do
 end
 
 Then /^I have L and U matrices defined for the matrix$/ do
-  @matrix.l.should_not be_nil  
-  @matrix.u.should_not be_nil  
-  prod = @matrix.l*@matrix.u
+  @matrix.l_matrix.should_not be_nil  
+  @matrix.u_matrix.should_not be_nil  
+  prod = @matrix.l_matrix*@matrix.u_matrix
   @matrix.lu_unscramble prod
   prod.should have_all_elements_within(1.0e-12).of(@matrix)
 end
@@ -79,4 +79,26 @@ end
 
 When /^I perform singular value decomposition of the matrix$/ do
   @matrix.svdcmp
+end
+
+Then /^I have singular value decomposition of the matrix$/ do
+  @matrix.u.should_not be_nil
+  @matrix.v.should_not be_nil
+  @matrix.w.should_not be_nil
+
+  @matrix.u.rect.should == @matrix.rect
+  smaller_dimension = [@matrix.u.rect.col, @matrix.u.rect.row].min
+  @matrix.v.rect.col.should == smaller_dimension
+  @matrix.v.rect.row.should == smaller_dimension
+
+  i = Rumerical::Matrix.identity(smaller_dimension)
+
+  (@matrix.u.transpose*@matrix.u).should have_all_elements_within(1.0e-12).of(i)
+  vt = @matrix.v.transpose
+  (vt*@matrix.v).should have_all_elements_within(1.0e-12).of(i)
+
+  (1..smaller_dimension).each do |col|
+    vt.multiply_row_by  @matrix.w[col,1], col
+  end
+  (@matrix.u*vt).should have_all_elements_within(1.0e-12).of(@matrix)
 end

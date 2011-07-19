@@ -77,6 +77,19 @@ describe "Matrix" do
     result.should have_all_elements_within(1.0e-12).of(b)
   end
 
+  it "should define transposed matrix" do
+    m = Rumerical::Matrix.new({
+      1=>{1=>1.0, 2=>1.5},
+      2=>{1=>-1.1, 2=>2.5},
+      3=>{1=>-11.1, 2=>12.5}
+    })
+    mt = Rumerical::Matrix.new({
+      1=>{1=>1.0, 2=>-1.1, 3=>-11.1},
+      2=>{1=>1.5, 2=>2.5, 3=>12.5}
+    })
+    m.transpose.should have_all_elements_within(1.0e-12).of(mt)
+  end
+
   it "should define identity matrix" do
     i = Rumerical::Matrix.identity(3)
     i[1,1].should == 1
@@ -124,6 +137,20 @@ describe "Matrix" do
     m = Rumerical::Matrix.new @mi
     ipiv = Rumerical::Matrix.new({})
     m.find_pivot(ipiv) == [3,3]
+  end
+
+  it "should multiply column by value" do
+    m = Rumerical::Matrix.new @mi
+    m[2,1] = -1.3
+    m[2,3] = 14.2
+
+    m.multiply_column_by(3.0, 1)
+
+    m[1,1].should be_within(1.0e-12).of(3)
+    m[2,1].should be_within(1.0e-12).of(-3.9)
+    m[3,1].should == 0
+    m[2,2].should == 2
+    m[2,3].should == 14.2
   end
 
   it "should multiply row by value" do

@@ -28,11 +28,11 @@ module Rumerical
       end
     end
 
-    def l
+    def l_matrix
       @l ||= @lu.extract_l(@index)
     end
 
-    def u
+    def u_matrix
       @u ||= @lu.extract_u(@index)
     end
 

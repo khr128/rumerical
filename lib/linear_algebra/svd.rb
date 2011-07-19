@@ -1,5 +1,6 @@
 module Rumerical
   module LinearAlgebra
+    attr_reader :u, :v, :w
     MAX_SVD_ITERATIONS = 300
     def svdcmp
       @u = deepcopy self
