@@ -82,23 +82,36 @@ When /^I perform singular value decomposition of the matrix$/ do
 end
 
 Then /^I have singular value decomposition of the matrix$/ do
-  @matrix.u.should_not be_nil
-  @matrix.v.should_not be_nil
-  @matrix.w.should_not be_nil
+  @matrix.svd_u.should_not be_nil
+  @matrix.svd_v.should_not be_nil
+  @matrix.svd_w.should_not be_nil
 
-  @matrix.u.rect.should == @matrix.rect
-  smaller_dimension = [@matrix.u.rect.col, @matrix.u.rect.row].min
-  @matrix.v.rect.col.should == smaller_dimension
-  @matrix.v.rect.row.should == smaller_dimension
+  @matrix.svd_u.rect.should == @matrix.rect
+  col_n = @matrix.svd_u.rect.col
+  smaller_n = [col_n, @matrix.svd_u.rect.row].min
+  larger_n = [col_n, @matrix.svd_u.rect.row].max
+  @matrix.svd_v.rect.col.should == col_n
+  @matrix.svd_v.rect.row.should == col_n
 
-  i = Rumerical::Matrix.identity(smaller_dimension)
+  i = Rumerical::Matrix.identity(smaller_n)
 
-  (@matrix.u.transpose*@matrix.u).should have_all_elements_within(1.0e-12).of(i)
-  vt = @matrix.v.transpose
-  (vt*@matrix.v).should have_all_elements_within(1.0e-12).of(i)
+  prod_u = @matrix.svd_u.transpose*@matrix.svd_u
+  prod_u.rect.col = smaller_n
+  prod_u.rect.row = smaller_n
+  prod_u.should have_all_elements_within(1.0e-12).of(i)
 
-  (1..smaller_dimension).each do |col|
-    vt.multiply_row_by  @matrix.w[col,1], col
+  (smaller_n+1..larger_n).each do |i|
+    (1..col_n).each do |j|
+      prod_u[i,j].should == 0
+    end
   end
-  (@matrix.u*vt).should have_all_elements_within(1.0e-12).of(@matrix)
+
+  i = Rumerical::Matrix.identity(col_n)
+  vt = @matrix.svd_v.transpose
+  (vt*@matrix.svd_v).should have_all_elements_within(1.0e-12).of(i)
+
+  (1..col_n).each do |col|
+    vt.multiply_row_by  @matrix.svd_w[col,1], col
+  end
+  (@matrix.svd_u*vt).should have_all_elements_within(1.0e-12).of(@matrix)
 end
