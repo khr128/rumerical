@@ -1,6 +1,6 @@
 = rumerical
 
-* http://github.com/#{github_username}/#{project_name}
+* http://github.com/khr128/rumerical
 
 == DESCRIPTION:
 
@@ -11,6 +11,7 @@ Scientific computations in Ruby based on Numerical Recipes book.
 === class Matrix
   * Gauss-Jordan elimination with pivoting
   * LU Decomposition
+  * Singular Value Decomposition
 
 == SYNOPSIS:
 
