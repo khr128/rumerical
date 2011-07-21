@@ -110,8 +110,5 @@ Then /^I have singular value decomposition of the matrix$/ do
   vt = @matrix.svd_v.transpose
   (vt*@matrix.svd_v).should have_all_elements_within(1.0e-12).of(i)
 
-  (1..col_n).each do |col|
-    vt.multiply_row_by  @matrix.svd_w[col,1], col
-  end
-  (@matrix.svd_u*vt).should have_all_elements_within(1.0e-12).of(@matrix)
+  (@matrix.svd_u*@matrix.svd_w*vt).should have_all_elements_within(1.0e-12).of(@matrix)
 end

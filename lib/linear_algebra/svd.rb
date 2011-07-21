@@ -35,7 +35,7 @@ module Rumerical
           end
         end
 
-        @svd_w[i,1] = scale*g
+        @svd_w[i,i] = scale*g
         g=s=scale=0.0
         if i <= m && i != n
           scale = (l..n).inject(0.0){|sum,k| sum + @svd_u[i,k].abs}
@@ -56,7 +56,7 @@ module Rumerical
             (l..n).each{|k| @svd_u[i,k] *= scale}
           end
         end
-        anorm = [anorm, @svd_w[i,1].abs + rv1[i,1].abs].max
+        anorm = [anorm, @svd_w[i,i].abs + rv1[i,1].abs].max
       end
 
       n.downto(1).each do |i|
@@ -77,7 +77,7 @@ module Rumerical
 
       [m,n].min.downto(1).each do |i|
         l = i+1
-        g = @svd_w[i,1]
+        g = @svd_w[i,i]
         (l..n).each{|j| @svd_u[i,j] = 0.0}
         if g != 0.0
           g = 1.0/g
@@ -104,7 +104,7 @@ module Rumerical
               l = ll
               break
             end
-            if (@svd_w[nm,1].abs + anorm) == anorm
+            if (@svd_w[nm,nm].abs + anorm) == anorm
               l = ll
               break 
             end
@@ -117,9 +117,9 @@ module Rumerical
               f = s*rv1[i,1]
               rv1[i,1] *= c
               break if (f.abs+anorm) == anorm
-              g = @svd_w[i,1]
+              g = @svd_w[i,i]
               h = pythag(f,g)
-              @svd_w[i,1] = h
+              @svd_w[i,i] = h
               h = 1.0/h
               c = g*h
               s = -f*h
@@ -132,10 +132,10 @@ module Rumerical
             end
           end
 
-          z = @svd_w[k,1]
+          z = @svd_w[k,k]
           if l == k
             if z < 0.0
-              @svd_w[k,1] = -z
+              @svd_w[k,k] = -z
               (1..n).each{|j| @svd_v[j,k] = -@svd_v[j,k]}
             end
             break
@@ -143,9 +143,9 @@ module Rumerical
 
           raise "svd: no convergence in #{MAX_SVD_ITERATIONS} svdcmp iterations" if its == MAX_SVD_ITERATIONS
 
-          x = @svd_w[l,1]
+          x = @svd_w[l,l]
           nm = k-1
-          y = @svd_w[nm,1]
+          y = @svd_w[nm,nm]
           g = rv1[nm,1]
           h = rv1[k,1]
           f = ((y-z)*(y+z)+(g-h)*(g+h))/(2.0*h*y)
@@ -156,7 +156,7 @@ module Rumerical
           (l..nm).each do |j|
             i = j+1
             g = rv1[i,1]
-            y = @svd_w[i,1]
+            y = @svd_w[i,i]
             h = s*g
             g = c*g
             z = pythag(f,h)
@@ -175,7 +175,7 @@ module Rumerical
             end
 
             z = pythag(f,h)
-            @svd_w[j,1] = z
+            @svd_w[j,j] = z
             if z != 0 
               z = 1.0/z
               c = f*z
@@ -194,9 +194,10 @@ module Rumerical
           end
           rv1[l,1] = 0.0
           rv1[k,1] = f
-          @svd_w[k,1] = x
+          @svd_w[k,k] = x
         end
       end
+      nil
     end #end of svdcmp
   end
 end

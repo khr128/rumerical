@@ -1,3 +1,7 @@
+=== 0.0.3 2011-07-21
+
+* Singular Value Decomposition
+
 === 0.0.2 2011-07-17
 
 * LU decomposition

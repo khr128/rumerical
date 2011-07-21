@@ -129,8 +129,38 @@ Scientific computations in Ruby based on Numerical Recipes book.
       @rect=#<Rumerical::Point:0x0000010096d7b8 @x=3, @y=3>>
       
     
+* <b>Singular Value  Decomposition</b>
 
+  Definition: m = u*w*v.transpose
+
+    m = Rumerical::Matrix.new({
+        1=>{1=>1.0, 2=>1.5, 3=>1.8},
+        2=>{1=>-1.1, 2=>1.5, 3=>1.8},
+        3=>{1=>-11.1, 2=>12.5, 3=>-1.8}
+        })
+    m.svdcmp
+    
+    m.svd_u.traspose*m.svd_u #=> identity matrix
+    m.svd_v.traspose*m.svd_v #=> identity matrix
+
+    # Singular values
+    m.svd_w
+    => #<Rumerical::Matrix:0x00000100991de8
+      @m={
+        1=>{1=>16.976919077964936},
+        2=>{2=>0.960497627600138},
+        3=>{3=>3.918119820475734}},
+      @rect=#<Rumerical::Point:0x00000100991ca8 @x=3, @y=3>>
+
+    m.svd_u*m.svd_w*m.svd_v.transpose  #gives back the original matrix
+    => #<Rumerical::Matrix:0x000001008c8970
+      @m={
+        1=>{1=>0.9999999999999996, 2=>1.5000000000000013, 3=>1.7999999999999983},
+        2=>{1=>-1.100000000000001, 2=>1.5000000000000002, 3=>1.7999999999999998},
+        3=>{1=>-11.100000000000007, 2=>12.500000000000009, 3=>-1.8000000000000012}},
+      @rect=#<Rumerical::Point:0x000001008c8880 @x=3, @y=3>>
  
+
 == REQUIREMENTS:
 
 
