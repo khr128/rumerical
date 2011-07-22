@@ -18,6 +18,7 @@ Scientific computations in Ruby based on Numerical Recipes book.
 
 === class Integrator
   * Extended Trapezoid rule
+  * Romberg Integration
 
 == SYNOPSIS:
 
@@ -188,7 +189,33 @@ Scientific computations in Ruby based on Numerical Recipes book.
     inp.polint 0.8, 0, 3
     => 0.64
 
+
+=== Integration
+
 * <b>Extended Trapezoid Rule</b>
+
+    ig = Rumerical::Integration::Integrator.new(1,2,lambda{|x| x*x})
+
+    #Successive improvements
+    ig.trapzd(1)
+    => 2.5
+    ig.trapzd(2)
+    => 2.40625
+    ig.trapzd(3)
+    => 2.3671875
+    ig.trapzd(4)
+    => 2.349609375
+    ig.trapzd(5)
+    => 2.34130859375
+    ig.trapzd(6)
+    => 2.3372802734375  #exact value of this integral is 2.333333333333333333(3) 
+
+* <b>Romberg Integration</b>  
+
+    ig = Rumerical::Integration::Integrator.new(1,3,lambda{|x| Math::cos(x)})
+    num_interpolation_points = 5; accuracy = 1.0e-14
+    ig.qromb(num_interpolation_points, accuracy)
+    => -0.7003509767480279  #exact value is -0.70035097674802933
 
 
 == REQUIREMENTS:

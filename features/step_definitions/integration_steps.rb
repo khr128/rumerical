@@ -9,3 +9,11 @@ Then /^I apply extended trapezoid rule successively with the following results:$
     @integrator.trapzd(row["n"].to_i).should be_within(row["eps"].to_f).of(row["integral"].to_f)
   end
 end
+
+Then /^I apply Romberg's method with the following parameters:$/ do |table|
+  table.hashes.each do |row|
+    @integrator.qromb(row["K"].to_i, row["eps"].to_f).
+      should be_within(row["eps"].to_f).
+        of(row["integral"].to_f)
+  end
+end

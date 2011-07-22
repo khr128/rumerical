@@ -1,6 +1,11 @@
+=== 0.0.5 2011-07-22
+
+* Integration using extended trapezoid rule
+* Romberg Integration
+
 === 0.0.4 2011-07-22
 
-* Polinomial interpolation
+* Polynomial interpolation
 
 === 0.0.3 2011-07-21
 

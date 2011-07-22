@@ -6,9 +6,11 @@ PostInstall.txt
 README.rdoc
 Rakefile
 features/gauss_jordan.feature
+features/integration.feature
 features/interpolation.feature
 features/lu_decomposition.feature
 features/matrix.feature
+features/step_definitions/integration_steps.rb
 features/step_definitions/interpolation_steps.rb
 features/step_definitions/matrix_steps.rb
 features/support/env.rb
@@ -16,6 +18,7 @@ features/svd.feature
 lib/data_types.rb
 lib/data_types/matrix.rb
 lib/data_types/point.rb
+lib/integration/integration.rb
 lib/interpolation/interpolation.rb
 lib/linear_algebra.rb
 lib/linear_algebra/gauss_jordan.rb

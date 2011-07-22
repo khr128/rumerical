@@ -5,7 +5,7 @@ Feature: Integration
   I'd like to calculate definite integrals
   For any purpose that I might have
 
-  Scenario: Integrate function with extended trapezoid rule
+  Scenario: Integrate function using extended trapezoid rule
     Given an integration object with the following parameters:
       | a   | b   | func |
       | 1.0 | 2.0 | x*x  |
@@ -27,3 +27,24 @@ Feature: Integration
       | 14 | 2.3333333 | 1.6e-5 |
       | 15 | 2.3333333 | 8.0e-6 |
       | 16 | 2.3333333 | 4.0e-6 |
+
+@qromb
+  Scenario: Integrate function using Romberg's method
+    Given an integration object with the following parameters:
+      | a   | b   | func |
+      | 1.0 | 2.0 | x*x  |
+    Then I apply Romberg's method with the following parameters:
+      | K | eps     | integral           |
+      | 5 | 1.0e-8  | 2.3333333333333333 |
+      | 4 | 1.0e-14 | 2.3333333333333333 |
+
+@qromb_2
+  Scenario: Integrate cos function using Romberg's method
+    Given an integration object with the following parameters:
+      | a   | b   | func         |
+      | 1.0 | 3.0 | Math::cos(x) |
+    Then I apply Romberg's method with the following parameters:
+      | K | eps     | integral             |
+      | 5 | 1.0e-14 | -0.70035097674802933 |
+      | 6 | 1.0e-14 | -0.70035097674802933 |
+      | 7 | 1.0e-15 | -0.70035097674802933 |
