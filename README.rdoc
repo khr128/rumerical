@@ -158,17 +158,36 @@ Scientific computations in Ruby based on Numerical Recipes book.
       @m={
         1=>{1=>0.9999999999999996, 2=>1.5000000000000013, 3=>1.7999999999999983},
         2=>{1=>-1.100000000000001, 2=>1.5000000000000002, 3=>1.7999999999999998},
-        3=>{1=>-11.100000000000007, 2=>12.500000000000009, 3=>-1.8000000000000012}},
+        3=>{1=>-11.100000000000007, 2=>12.500000000000009, 
+      3=>-1.8000000000000012}},
       @rect=#<Rumerical::Point:0x000001008c8880 @x=3, @y=3>>
- 
+
+=== Interpolation
+
+* <b>Polynomial Interpolation</b>
+
+    inp = Rumerical::Interpolation::Interpolator.new
+    inp.x = [1,2,3,4]
+    inp.y = [1,4,9,16]
+
+    #Interpolate using 4 points starting at offset 0
+    inp.polint 1.2, 0, 4
+    => 1.4400000000000002
+
+    #Interpolate using 3 points starting at offset 1
+    inp.polint 2.2, 1, 3
+    => 4.8400000000000001
+
+
 
 == REQUIREMENTS:
 
+Developed and tested with ruby-1.9.2-p290
 
 
 == INSTALL:
 
-  gem install rumerical
+ rake install_gem
 
 == LICENSE:
 

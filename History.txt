@@ -1,3 +1,7 @@
+=== 0.0.4 2011-07-22
+
+* Polinomial interpolation
+
 === 0.0.3 2011-07-21
 
 * Singular Value Decomposition

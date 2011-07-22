@@ -8,4 +8,4 @@ end
 require 'util/util'
 require 'linear_algebra'
 require 'data_types'
-require 'interpolation/linear'
+require 'interpolation/interpolation'

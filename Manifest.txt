@@ -6,15 +6,17 @@ PostInstall.txt
 README.rdoc
 Rakefile
 features/gauss_jordan.feature
+features/interpolation.feature
 features/lu_decomposition.feature
 features/matrix.feature
+features/step_definitions/interpolation_steps.rb
 features/step_definitions/matrix_steps.rb
 features/support/env.rb
 features/svd.feature
 lib/data_types.rb
 lib/data_types/matrix.rb
 lib/data_types/point.rb
-lib/interpolation/linear.rb
+lib/interpolation/interpolation.rb
 lib/linear_algebra.rb
 lib/linear_algebra/gauss_jordan.rb
 lib/linear_algebra/lu_decomposition.rb
@@ -23,7 +25,6 @@ lib/rumerical.rb
 lib/util/util.rb
 spec/custom_matchers/matrix_matchers.rb
 spec/data_types/matrix_spec.rb
-script/generate
 spec/data_types/point_spec.rb
 spec/interpolation/interpolation_spec.rb
 spec/linear_algebra/gauss_jordan_spec.rb
