@@ -12,6 +12,12 @@ Scientific computations in Ruby based on Numerical Recipes book.
   * Gauss-Jordan elimination with pivoting
   * LU Decomposition
   * Singular Value Decomposition
+ 
+=== class Interpolator
+  * Polynomial Interpolation
+
+=== class Integrator
+  * Extended Trapezoid rule
 
 == SYNOPSIS:
 
@@ -178,6 +184,11 @@ Scientific computations in Ruby based on Numerical Recipes book.
     inp.polint 2.2, 1, 3
     => 4.8400000000000001
 
+    #Extrapolate
+    inp.polint 0.8, 0, 3
+    => 0.64
+
+* <b>Extended Trapezoid Rule</b>
 
 
 == REQUIREMENTS:
@@ -187,6 +198,8 @@ Developed and tested with ruby-1.9.2-p290
 
 == INSTALL:
 
+ gem install bundler
+ bundle update
  rake install_gem
 
 == LICENSE:
