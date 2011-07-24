@@ -224,7 +224,10 @@ Developed and tested with ruby-1.9.2-p290
 
 
 == INSTALL:
-
+ rvm install ruby-1.9.2-p290
+ rvm use ruby-1.9.2-p290
+ rvm gemset create rumerical
+ rvm gemset use rumerical
  gem install bundler
  bundle update
  rake install_gem
