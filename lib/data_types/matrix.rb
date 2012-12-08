@@ -83,15 +83,11 @@ module Rumerical
     end
 
     def swap i1, j1, i2, j2
-      tmp = deepcopy @m[i1][j1]
-      @m[i1][j1] = deepcopy @m[i2][j2]
-      @m[i2][j2] = tmp
+      @m[i1][j1], @m[i2][j2] = deepcopy(@m[i2][j2]), deepcopy(@m[i1][j1])
     end
 
     def swap_rows row1, row2
-      tmp_row = deepcopy @m[row1]
-      @m[row1] = deepcopy @m[row2]
-      @m[row2] = tmp_row
+      @m[row1], @m[row2] = deepcopy(@m[row2]), deepcopy(@m[row1])
     end
 
     def multiply_column_by value, col
