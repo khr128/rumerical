@@ -36,7 +36,7 @@ GEM
       rspec (~> 2.11)
     hoe (3.3.1)
       rake (>= 0.8, < 11.0)
-    json (1.7.5)
+    json (2.2.0)
     json_pure (1.7.5)
     listen (0.6.0)
     lumberjack (1.0.2)
